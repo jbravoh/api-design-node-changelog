@@ -1,5 +1,10 @@
 import app from './server'
+import * as dotenv from 'dotenv'
 
-app.listen(3001, () => {
-  console.log("hello on http://localhost:3001");
+dotenv.config()
+
+const port = 3001
+
+app.listen(port, () => {
+  console.log(`Listening on http://localhost:${port}`);
 });
