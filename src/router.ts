@@ -1,52 +1,82 @@
 import { Router } from "express";
-import { body, validationResult} from "express-validator"
+import { body, oneOf, validationResult } from "express-validator";
+import { handleInputErrors } from "./modules/middleware";
 
-const router = Router()
+const router = Router();
 
 /**
  * Product
  */
 
-router.get('/product', (req, res) => {
-    res.json({message: 'hello'})
-})
-router.get('/product/:id', () => {})
-router.post('/product', () => {})
+router.get("/product", (req, res) => {
+  res.json({ message: "hello" });
+});
+router.get("/product/:id", () => {});
+router.post(
+  "/product",
+  body("name").isString,
+  handleInputErrors,
+  (req, res) => {}
+);
 
-// req.body should have field called "name"
-router.put('/product/:id', body("name").isString(), (req, res) => {
-    const errors = validationResult(req)
-    console.log(errors)
-    if(!errors.isEmpty()) {
-        res.status(400);
-        // send back json and in the errors field, show the errors in an array
-        res.json({errors: errors.array()})
-    }
-})
-router.delete('/product/:id', () => {})
+router.put(
+  "/product/:id",
+  body("name").isString(),
+  handleInputErrors,
+  (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors);
+  }
+);
+router.delete("/product/:id", () => {});
 
 /**
  * Update
  */
 
- router.get('/update', () => {})
- router.get('/update/:id', () => {})
- router.post('/update', () => {})
- router.put('/update/:id', () => {})
- router.delete('/update/:id', () => {})
- 
+router.get("/update", () => {});
+router.get("/update/:id", () => {});
+router.post(
+  "/update",
+  body("title").exists().isString(),
+  body("description").exists,
+  handleInputErrors,
+  (req, res) => {}
+);
+router.put(
+  "/update/:id",
+  body("title").optional().isString(),
+  body("description").optional().isString(),
+  // validate enum
+  body("status").isIn(["IN_PROGRESS", "SHIPPED", "DEPRECATED"]),
+  body("version").optional(),
+  handleInputErrors,
+  () => {}
+);
+router.delete("/update/:id", () => {});
 
 /**
  * Update Point
  */
 
- router.get('/updatepoint', (req, res) => {
-    res.json({message: 'hello'})
- })
- router.get('/updatepoint/:id', () => {})
- router.post('/updatepoint', () => {})
- router.put('/updatepoint/:id', () => {})
- router.delete('/updatepoint/:id', () => {})
- 
+router.get("/updatepoint", (req, res) => {
+  res.json({ message: "hello" });
+});
+router.get("/updatepoint/:id", () => {});
+router.post(
+  "/updatepoint",
+  body("name").exists().isString(),
+  body("description").exists().isString(),
+  handleInputErrors,
+  () => {}
+);
+router.put(
+  "/updatepoint/:id",
+  body("name").optional().isString(),
+  body("description").optional().isString(),
+  handleInputErrors,
+  () => {}
+);
+router.delete("/updatepoint/:id", () => {});
 
- export default router
+export default router;
