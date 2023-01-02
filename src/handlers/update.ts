@@ -15,7 +15,7 @@ export const getUpdates = async (req, res) => {
     return [...allUpdates, ...product.updates];
   }, []);
 
-  req.json({ data: updates });
+  res.json({ data: updates });
 };
 
 export const getOneUpdate = async (req, res) => {
@@ -24,7 +24,7 @@ export const getOneUpdate = async (req, res) => {
   const update = await prisma.update.findFirst({
     where: {
       id,
-      productId: req.product.id,
+      productId: req.body.id,
     },
   });
 };
