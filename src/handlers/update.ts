@@ -27,6 +27,8 @@ export const getOneUpdate = async (req, res) => {
       productId: req.body.id,
     },
   });
+
+  res.json({ data: update });
 };
 
 export const createUpdate = async (req, res) => {
@@ -38,13 +40,18 @@ export const createUpdate = async (req, res) => {
 
   if (!product) {
     // does not belong to user
-    return res.json({ message: "'nope" });
+    return res.json({ message: "nope" });
   }
-  const update = prisma.update.create({
-    data: req.body,
+
+  const update = await prisma.update.create({
+    data: {
+      title: req.body.title,
+      body: req.body.body,
+      product: { connect: { id: product.id } },
+    },
   });
 
-  res.json({ data: update, message: "update created" });
+  res.json({ data: update, message: "updated created" });
 };
 
 export const updateUpdate = async (req, res) => {
@@ -78,6 +85,7 @@ export const updateUpdate = async (req, res) => {
   res.json({ data: updatedUpdate, message: "update updated" });
 };
 
+//  Does not work!!!
 export const deleteUpdate = async (req, res) => {
   const products = await prisma.product.findMany({
     where: {
