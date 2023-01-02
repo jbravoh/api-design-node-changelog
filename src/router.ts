@@ -58,7 +58,7 @@ router.put(
   body("title").optional().isString(),
   body("body").optional().isString(),
   // validate enum
-  body("status").isIn(["IN_PROGRESS", "SHIPPED", "DEPRECATED"]).optional,
+  body("status").isIn(["IN_PROGRESS", "SHIPPED", "DEPRECATED"]).optional(),
   body("version").optional(),
   handleInputErrors,
   updateUpdate
