@@ -65,7 +65,7 @@ export const updateUpdate = async (req, res) => {
   });
 
   const updates = products.reduce((allUpdates, product) => {
-    return [...allUpdates, product.updates];
+    return [...allUpdates, ...product.updates];
   }, []);
 
   const match = updates.find((update) => update.id === req.params.id);
@@ -85,7 +85,6 @@ export const updateUpdate = async (req, res) => {
   res.json({ data: updatedUpdate, message: "update updated" });
 };
 
-//  Does not work!!!
 export const deleteUpdate = async (req, res) => {
   const products = await prisma.product.findMany({
     where: {
@@ -97,7 +96,7 @@ export const deleteUpdate = async (req, res) => {
   });
 
   const updates = products.reduce((allUpdates, product) => {
-    return [...allUpdates, product.updates];
+    return [...allUpdates, ...product.updates];
   }, []);
 
   const match = updates.find((update) => update.id === req.params.id);
