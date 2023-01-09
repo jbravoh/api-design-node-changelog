@@ -14,9 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.get("/", (req, res, next) => {
-  setTimeout(() => {
-    next(new Error("hello"));
-  }, 1);
+  res.json({ message: "hello" });
 });
 
 app.use("/api", protect, router);
